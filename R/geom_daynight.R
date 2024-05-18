@@ -45,6 +45,7 @@ geom_daynight <- function(mapping = NULL, data = NULL, stat = "identity",
 
 # Function to create day/night pattern data
 daynight_table <- function(min_datetime, max_datetime, sunrise = 6, sunset = 18) {
+  # Internal function to check if a time is during the day
   is_daytime <- function(datetime) {
     hour <- as.numeric(format(datetime, "%H"))
     return(hour >= sunrise & hour < sunset)
@@ -60,40 +61,48 @@ daynight_table <- function(min_datetime, max_datetime, sunrise = 6, sunset = 18)
   return(daynight)
 }
 
+# Function to draw the day/night pattern on the panel
 draw_panel_daynight <- function(data, panel_params, coord, day_fill,
                                 night_fill, sunrise, sunset) {
 
+  # Check if 'x' is a continuous datetime scale
   if (!inherits(panel_params$x$scale, "ScaleContinuousDatetime")) {
     warning("In geom_daynight(): 'x' must be a datetime, ignoring output.", call. = FALSE)
     return(grid::nullGrob())
   }
 
+  # Get the x-axis limits
   datetime_range <- panel_params$x$get_limits()
   tz <- panel_params$x$scale$timezone
   datetime_range <- as.POSIXct(datetime_range, tz = tz)
 
+  # Generate the day/night table within the datetime range
   daynight <- daynight_table(datetime_range[1], datetime_range[2], sunrise, sunset)
 
+  # Check if the 'fill' parameter was used and warn that it will be ignored
   if (!is.na(unique(data[["fill"]]))) {
     message("Ignoring argument 'fill' in geom_daynight, use day_fill and night_fill.")
   }
 
+  # Define the common aesthetics
   common_aes <- c("PANEL", "linewidth", "linetype", "alpha")
 
+  # Create a dataframe with the common aesthetics
   common <- unique(data[, common_aes])
   common$colour = NA
   rownames(common) <- NULL
 
-
+  # Return a nullGrob if there is not enough data
   if (nrow(daynight) < 2) {
     return(grid::nullGrob())
   }
 
+  # Create the data for the daytime rectangles
   day_subset <- daynight[daynight$daytime == TRUE,]$datetime
   data_day <- merge(
     data.frame(
       xmin = day_subset,
-      xmax = day_subset + 3600,
+      xmax = day_subset + 3600, # One rectangle per hour
       ymin = -Inf,
       ymax = Inf,
       fill = day_fill
@@ -101,11 +110,12 @@ draw_panel_daynight <- function(data, panel_params, coord, day_fill,
     common
   )
 
+  # Create the data for the nighttime rectangles
   night_subset <- daynight[daynight$daytime == FALSE,]$datetime
   data_night <- merge(
     data.frame(
       xmin = night_subset,
-      xmax = night_subset + 3600,
+      xmax = night_subset + 3600, # One rectangle per hour
       ymin = -Inf,
       ymax = Inf,
       fill = night_fill
@@ -113,6 +123,7 @@ draw_panel_daynight <- function(data, panel_params, coord, day_fill,
     common
   )
 
+  # Draw the daytime and nighttime rectangles on the panel
   grid::gList(
     GeomRect$draw_panel(data_day, panel_params, coord),
     GeomRect$draw_panel(data_night, panel_params, coord)
