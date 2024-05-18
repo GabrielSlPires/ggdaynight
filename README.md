@@ -23,31 +23,40 @@ library(ggdaynight)
 
 ggplot(daynight_temperature, aes(datetime, temperature)) +
   geom_daynight() +
-  geom_point()
-
+  geom_point() +
+  theme_classic()
 ```
+![basic plot](man/figures/basic-plot.png)
+
 Basic Usage with Faceting by Sensor
 ```
 ggplot(daynight_temperature, aes(datetime, temperature)) +
   geom_daynight() +
   geom_point() +
-  facet_wrap(vars(sensor))
+  facet_wrap(vars(sensor)) +
+  theme_classic()
 ```
+![facet plot](man/figures/facet-plot.png)
+
 Usage with Lines and Color by Sensor
 ```
 ggplot(daynight_temperature, aes(datetime, temperature, color = sensor)) +
   geom_daynight() +
-  geom_line()
+  geom_line(linewidth = 1) +
+  theme_classic()
 ```
+![color plot](man/figures/color-plot.png)
+
 Custom Day and Night Fill Colors, Custom Sunrise and Sunset Times, and Adjusted Alpha
 ```
-ggplot(daynight_temperature, aes(datetime, temperature, color = sensor)) +
-  geom_daynight(
-    day_fill = "yellow", night_fill = "blue",
-    sunrise = 5, sunset = 20, alpha = 0.5
-  ) +
-  geom_line(linewidth = 1)
+ggplot(daynight_temperature, aes(datetime, temperature, group = sensor)) +
+  geom_daynight(day_fill = "yellow", night_fill = "blue",
+                sunrise = 5, sunset = 20, alpha = 0.5) +
+  geom_line(linewidth = 1) +
+  theme_classic()
 ```
+![custom plot](man/figures/custom-plot.png)
+
 ### Function Details
 
 #### geom_daynight
