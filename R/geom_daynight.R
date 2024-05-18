@@ -31,8 +31,10 @@
 #'
 #' # Custom day and night fill colors, custom sunrise and sunset times, and adjusted alpha
 #' ggplot(daynight_temperature, aes(datetime, temperature, color = sensor)) +
-#'   geom_daynight(day_fill = "yellow", night_fill = "blue",
-#'                 sunrise = 5, sunset = 20, alpha = 0.5) +
+#'   geom_daynight(
+#'     day_fill = "yellow", night_fill = "blue",
+#'     sunrise = 5, sunset = 20, alpha = 0.5
+#'   ) +
 #'   geom_line(linewidth = 1)
 #' @export
 geom_daynight <- function(mapping = NULL, data = NULL, stat = "identity",
@@ -80,7 +82,6 @@ daynight_table <- function(min_datetime, max_datetime, sunrise = 6, sunset = 18)
 # Function to draw the day/night pattern on the panel
 draw_panel_daynight <- function(data, panel_params, coord, day_fill,
                                 night_fill, sunrise, sunset) {
-
   # Check if 'x' is a continuous datetime scale
   if (!inherits(panel_params$x$scale, "ScaleContinuousDatetime")) {
     warning("In geom_daynight(): 'x' must be a datetime, ignoring output.", call. = FALSE)
@@ -105,7 +106,7 @@ draw_panel_daynight <- function(data, panel_params, coord, day_fill,
 
   # Create a dataframe with the common aesthetics
   common <- unique(data[, common_aes])
-  common$colour = NA
+  common$colour <- NA
   rownames(common) <- NULL
 
   # Return a nullGrob if there is not enough data
@@ -114,7 +115,7 @@ draw_panel_daynight <- function(data, panel_params, coord, day_fill,
   }
 
   # Create the data for the daytime rectangles
-  day_subset <- daynight[daynight$daytime == TRUE,]$datetime
+  day_subset <- daynight[daynight$daytime == TRUE, ]$datetime
   data_day <- merge(
     data.frame(
       xmin = day_subset,
@@ -127,7 +128,7 @@ draw_panel_daynight <- function(data, panel_params, coord, day_fill,
   )
 
   # Create the data for the nighttime rectangles
-  night_subset <- daynight[daynight$daytime == FALSE,]$datetime
+  night_subset <- daynight[daynight$daytime == FALSE, ]$datetime
   data_night <- merge(
     data.frame(
       xmin = night_subset,
@@ -141,8 +142,8 @@ draw_panel_daynight <- function(data, panel_params, coord, day_fill,
 
   # Draw the daytime and nighttime rectangles on the panel
   grid::gList(
-    GeomRect$draw_panel(data_day, panel_params, coord),
-    GeomRect$draw_panel(data_night, panel_params, coord)
+    ggplot2::GeomRect$draw_panel(data_day, panel_params, coord),
+    ggplot2::GeomRect$draw_panel(data_night, panel_params, coord)
   )
 }
 
