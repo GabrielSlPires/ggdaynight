@@ -3,7 +3,7 @@ Type: Package
 Title: Add Day/Night Patterns to ggplot2 Plots
 Version: 0.1.0
 Authors@R: 
-    person(c("Gabriel", "S."), "Pires", , "gabriel.slpires@gmail.com", role = c("aut", "cre"),
+    person(c("Gabriel", "S."), "Pires", , "gabriel.slpires@gmail.com", role = c("aut", "cre", "chp"),
            comment = c(ORCID = "0000-0002-5354-1957"))
 Description: This package provides a custom ggplot2 geom to add day/night patterns to plots.
     It visually distinguishes daytime and nighttime periods. It is useful for 
