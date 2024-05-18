@@ -101,6 +101,7 @@ The pattern is created along the x-axis, which must be a datetime variable.
 }
 \examples{
 # Basic usage with default parameters
+library(ggplot2)
 ggplot(daynight_temperature, aes(datetime, temperature)) +
   geom_daynight() +
   geom_point()
@@ -118,7 +119,9 @@ ggplot(daynight_temperature, aes(datetime, temperature, color = sensor)) +
 
 # Custom day and night fill colors, custom sunrise and sunset times, and adjusted alpha
 ggplot(daynight_temperature, aes(datetime, temperature, color = sensor)) +
-  geom_daynight(day_fill = "yellow", night_fill = "blue",
-                sunrise = 5, sunset = 20, alpha = 0.5) +
+  geom_daynight(
+    day_fill = "yellow", night_fill = "blue",
+    sunrise = 5, sunset = 20, alpha = 0.5
+  ) +
   geom_line(linewidth = 1)
 }

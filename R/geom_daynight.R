@@ -14,6 +14,7 @@
 #' @return A ggplot2 layer representing the day/night pattern.
 #' @examples
 #' # Basic usage with default parameters
+#' library(ggplot2)
 #' ggplot(daynight_temperature, aes(datetime, temperature)) +
 #'   geom_daynight() +
 #'   geom_point()
@@ -61,8 +62,20 @@ geom_daynight <- function(mapping = NULL, data = NULL, stat = "identity",
   return(layer)
 }
 
-# Function to create day/night pattern data
-daynight_table <- function(min_datetime, max_datetime, sunrise = 6, sunset = 18) {
+#' Create Day/Night Pattern Data
+#'
+#' Generates a data frame representing daytime and nighttime periods
+#' based on a sequence of datetime values.
+#'
+#' @param min_datetime The starting datetime value (POSIXct format).
+#' @param max_datetime The ending datetime value (POSIXct format).
+#' @param sunrise The hour at which daytime starts.
+#' @param sunset The hour at which nighttime starts.
+#' @return A data frame with columns \code{datetime} and \code{daytime},
+#'   where \code{datetime} represents the datetime values and \code{daytime}
+#'   is a logical indicating whether the time is during the day.
+#' @keywords internal
+daynight_table <- function(min_datetime, max_datetime, sunrise, sunset) {
   # Internal function to check if a time is during the day
   is_daytime <- function(datetime) {
     hour <- as.numeric(format(datetime, "%H"))
@@ -79,12 +92,25 @@ daynight_table <- function(min_datetime, max_datetime, sunrise = 6, sunset = 18)
   return(daynight)
 }
 
-# Function to draw the day/night pattern on the panel
+#' Draw Day/Night Pattern on Panel
+#'
+#' Internal function to draw the day/night pattern on the ggplot2 panel.
+#'
+#' @param data The data to be displayed.
+#' @param panel_params The parameters of the panel.
+#' @param coord The coordinate system.
+#' @param day_fill The fill color for daytime rectangles.
+#' @param night_fill The fill color for nighttime rectangles.
+#' @param sunrise The hour at which daytime starts.
+#' @param sunset The hour at which nighttime starts.
+#' @return A gList object containing the grobs for the day/night pattern.
+#' @keywords internal
 draw_panel_daynight <- function(data, panel_params, coord, day_fill,
                                 night_fill, sunrise, sunset) {
   # Check if 'x' is a continuous datetime scale
   if (!inherits(panel_params$x$scale, "ScaleContinuousDatetime")) {
-    warning("In geom_daynight(): 'x' must be a datetime, ignoring output.", call. = FALSE)
+    warning("In geom_daynight(): 'x' must be a datetime, ignoring output.",
+            call. = FALSE)
     return(grid::nullGrob())
   }
 
@@ -147,7 +173,16 @@ draw_panel_daynight <- function(data, panel_params, coord, day_fill,
   )
 }
 
-# ggproto object for day/night pattern geom
+#' GeomDayNight
+#'
+#' A ggproto object for creating a day/night pattern geom in ggplot2.
+#'
+#' This geom creates a pattern along the x-axis of a ggplot2 plot,
+#' distinguishing between daytime and nighttime using rectangles filled
+#' with specified colors.
+#'
+#' @format An object of class \code{GeomDayNight} (inherits from \code{Geom}, \code{ggproto}).
+#' @keywords internal
 GeomDayNight <- ggplot2::ggproto(
   "GeomDayNight", ggplot2::Geom,
   required_aes = "x",
