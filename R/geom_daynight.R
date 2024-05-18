@@ -13,11 +13,27 @@
 #' @param ... Additional arguments passed to `geom_rect`.
 #' @return A ggplot2 layer representing the day/night pattern.
 #' @examples
-#' data <- open_pneumatron_data("path/to/your/datafile.csv") # add example data
-#' ggplot(data, aes(datetime, as.factor(id))) +
-#'   geom_daily_pattern(day_fill = "yellow", night_fill = "blue",
-#'                      sunrise = 6, sunset = 18, alpha = 0.2) +
-#'   geom_line(aes(group = id))
+#' # Basic usage with default parameters
+#' ggplot(daynight_temperature, aes(datetime, temperature)) +
+#'   geom_daynight() +
+#'   geom_point()
+#'
+#' # Basic usage with faceting by sensor
+#' ggplot(daynight_temperature, aes(datetime, temperature)) +
+#'   geom_daynight() +
+#'   geom_point() +
+#'   facet_wrap(vars(sensor))
+#'
+#' # Usage with lines and color by sensor
+#' ggplot(daynight_temperature, aes(datetime, temperature, color = sensor)) +
+#'   geom_daynight() +
+#'   geom_line()
+#'
+#' # Custom day and night fill colors, custom sunrise and sunset times, and adjusted alpha
+#' ggplot(daynight_temperature, aes(datetime, temperature, color = sensor)) +
+#'   geom_daynight(day_fill = "yellow", night_fill = "blue",
+#'                 sunrise = 5, sunset = 20, alpha = 0.5) +
+#'   geom_line(linewidth = 1)
 #' @export
 geom_daynight <- function(mapping = NULL, data = NULL, stat = "identity",
                           position = "identity", na.rm = FALSE,
