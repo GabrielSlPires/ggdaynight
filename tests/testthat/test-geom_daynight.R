@@ -54,7 +54,7 @@ test_that("Custom day and night fill colors, custom sunrise and sunset times, an
 test_that("Test only daytime plot", {
   data <- daynight_temperature[
     daynight_temperature$datetime > as.POSIXct("2024-04-23 11:00") &
-    daynight_temperature$datetime < as.POSIXct("2024-04-23 12:00"),
+      daynight_temperature$datetime < as.POSIXct("2024-04-23 12:00"),
   ]
   p <- ggplot2::ggplot(data, ggplot2::aes(datetime, temperature, color = sensor)) +
     geom_daynight(
@@ -70,7 +70,7 @@ test_that("Test only daytime plot", {
 test_that("Test only nighttime plot", {
   data <- daynight_temperature[
     daynight_temperature$datetime > as.POSIXct("2024-04-23 19:00") &
-    daynight_temperature$datetime < as.POSIXct("2024-04-23 20:00"),
+      daynight_temperature$datetime < as.POSIXct("2024-04-23 20:00"),
   ]
   p <- ggplot2::ggplot(data, ggplot2::aes(datetime, temperature, color = sensor)) +
     geom_daynight(

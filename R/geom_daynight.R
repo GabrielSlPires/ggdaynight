@@ -110,7 +110,8 @@ draw_panel_daynight <- function(data, panel_params, coord, day_fill,
   # Check if 'x' is a continuous datetime scale
   if (!inherits(panel_params$x$scale, "ScaleContinuousDatetime")) {
     warning("In geom_daynight(): 'x' must be a datetime, ignoring output.",
-            call. = FALSE)
+      call. = FALSE
+    )
     return(grid::nullGrob())
   }
 
@@ -137,56 +138,61 @@ draw_panel_daynight <- function(data, panel_params, coord, day_fill,
 
   # Create the data for the daytime rectangles
   day_subset <- daynight[daynight$daytime == TRUE, ]$datetime
-  data_day <- tryCatch({
-    merge(
-      data.frame(
-        xmin = day_subset,
-        xmax = day_subset + 3600, # One rectangle per hour
-        ymin = -Inf,
-        ymax = Inf,
-        fill = day_fill
-      ),
-      common
-    )
-  }, error = function(e) {
-    merge(
-      data.frame(
-        xmin = NA,
-        xmax = NA, # One rectangle per hour
-        ymin = -Inf,
-        ymax = Inf,
-        fill = day_fill
-      ),
-      common
-    )
-
-  })
+  data_day <- tryCatch(
+    {
+      merge(
+        data.frame(
+          xmin = day_subset,
+          xmax = day_subset + 3600, # One rectangle per hour
+          ymin = -Inf,
+          ymax = Inf,
+          fill = day_fill
+        ),
+        common
+      )
+    },
+    error = function(e) {
+      merge(
+        data.frame(
+          xmin = NA,
+          xmax = NA, # One rectangle per hour
+          ymin = -Inf,
+          ymax = Inf,
+          fill = day_fill
+        ),
+        common
+      )
+    }
+  )
 
   # Create the data for the nighttime rectangles
   night_subset <- daynight[daynight$daytime == FALSE, ]$datetime
-  data_night <- tryCatch({
-    merge(
-      data.frame(
-        xmin = night_subset,
-        xmax = night_subset + 3600, # One rectangle per hour
-        ymin = -Inf,
-        ymax = Inf,
-        fill = night_fill
-      ),
-      common
-    )
-  }, error = function(e) {
-    merge(
-      data.frame(
-        xmin = NA,
-        xmax = NA, # One rectangle per hour
-        ymin = -Inf,
-        ymax = Inf,
-        fill = night_fill
-      ),
-      common
-    )
-  })
+  data_night <- tryCatch(
+    {
+      merge(
+        data.frame(
+          xmin = night_subset,
+          xmax = night_subset + 3600, # One rectangle per hour
+          ymin = -Inf,
+          ymax = Inf,
+          fill = night_fill
+        ),
+        common
+      )
+    },
+    error = function(e) {
+      merge(
+        data.frame(
+          xmin = NA,
+          xmax = NA, # One rectangle per hour
+          ymin = -Inf,
+          ymax = Inf,
+          fill = night_fill
+        ),
+        common
+      )
+    }
+  )
 
 
   # Draw the daytime and nighttime rectangles on the panel
