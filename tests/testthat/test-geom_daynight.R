@@ -5,7 +5,7 @@ test_that("Basic usage with default parameters", {
     geom_daynight() +
     ggplot2::geom_point()
 
-  vdiffr::expect_doppelganger("Basic usage with default parameters", p)
+  expect_doppelganger("Basic usage with default parameters", p)
 })
 
 # Test for basic usage with faceting by sensor
@@ -16,7 +16,7 @@ test_that("Basic usage with faceting by sensor", {
     ggplot2::geom_point() +
     ggplot2::facet_wrap(ggplot2::vars(sensor))
 
-  vdiffr::expect_doppelganger("Basic usage with faceting by sensor", p)
+  expect_doppelganger("Basic usage with faceting by sensor", p)
 })
 
 # Test for usage with lines and color by sensor
@@ -26,7 +26,7 @@ test_that("Usage with lines and color by sensor", {
     geom_daynight() +
     ggplot2::geom_line()
 
-  vdiffr::expect_doppelganger("Usage with lines and color by sensor", p)
+  expect_doppelganger("Usage with lines and color by sensor", p)
 })
 
 # Test for custom day and night fill colors, custom sunrise and sunset times, and adjusted alpha
@@ -39,7 +39,7 @@ test_that("Custom day and night fill colors, custom sunrise and sunset times, an
     ) +
     ggplot2::geom_line(linewidth = 1)
 
-  vdiffr::expect_doppelganger("Custom day and night fill colors", p)
+  expect_doppelganger("Custom day and night fill colors", p)
 })
 
 # Test for custom day and night fill colors, custom sunrise and sunset times, and adjusted alpha
@@ -52,7 +52,7 @@ test_that("Custom day and night fill colors, custom sunrise and sunset times, an
     ) +
     ggplot2::geom_line(linewidth = 1)
 
-  vdiffr::expect_doppelganger("Custom day and night fill colors", p)
+  expect_doppelganger("Custom day and night fill colors", p)
 })
 
 # Test only daytime plot
@@ -69,7 +69,7 @@ test_that("Test only daytime plot", {
     ) +
     ggplot2::geom_line(linewidth = 1)
 
-  vdiffr::expect_doppelganger("Only daytime", p)
+  expect_doppelganger("Only daytime", p)
 })
 
 # Test only nighttime plot
@@ -86,5 +86,5 @@ test_that("Test only nighttime plot", {
     ) +
     ggplot2::geom_line(linewidth = 1)
 
-  vdiffr::expect_doppelganger("Only nighttime", p)
+  expect_doppelganger("Only nighttime", p)
 })
