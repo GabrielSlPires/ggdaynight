@@ -1,4 +1,6 @@
-# ggdaynight (development version)
+# ggdaynight 0.1.2
+
+* Now `geom_daynight()` handles periods with only one hour of daytime or nighttime.
 
 # ggdaynight 0.1.1
 
