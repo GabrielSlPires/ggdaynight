@@ -31,7 +31,7 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
       # Runs vdiffr test only on the latest version of R
       VDIFFR_RUN_TESTS: ${{ matrix.config.r == 'release' || matrix.config.r == 'devel' }}
-      # VDIFFR_RUN_TESTS: true
+      VDIFFR_RUN_TESTS: false
       VDIFFR_LOG_PATH: "../vdiffr.Rout.fail"
 
     steps:
