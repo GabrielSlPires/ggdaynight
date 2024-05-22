@@ -1,6 +1,6 @@
 # Test for basic usage with default parameters
 test_that("Basic usage with default parameters", {
-  skip_if(getRversion() < 4.3)
+  skip_if(getRversion() < numeric_version("4.4"))
   p <- ggplot2::ggplot(daynight_temperature, ggplot2::aes(datetime, temperature)) +
     geom_daynight() +
     ggplot2::geom_point()
@@ -10,7 +10,7 @@ test_that("Basic usage with default parameters", {
 
 # Test for basic usage with faceting by sensor
 test_that("Basic usage with faceting by sensor", {
-  skip_if(getRversion() < 4.3)
+  skip_if(getRversion() < numeric_version("4.4"))
   p <- ggplot2::ggplot(daynight_temperature, ggplot2::aes(datetime, temperature)) +
     geom_daynight() +
     ggplot2::geom_point() +
@@ -21,7 +21,7 @@ test_that("Basic usage with faceting by sensor", {
 
 # Test for usage with lines and color by sensor
 test_that("Usage with lines and color by sensor", {
-  skip_if(getRversion() < 4.3)
+  skip_if(getRversion() < numeric_version("4.4"))
   p <- ggplot2::ggplot(daynight_temperature, ggplot2::aes(datetime, temperature, color = sensor)) +
     geom_daynight() +
     ggplot2::geom_line()
@@ -31,7 +31,7 @@ test_that("Usage with lines and color by sensor", {
 
 # Test for custom day and night fill colors, custom sunrise and sunset times, and adjusted alpha
 test_that("Custom day and night fill colors, custom sunrise and sunset times, and adjusted alpha", {
-  skip_if(getRversion() < 4.3)
+  skip_if(getRversion() < numeric_version("4.4"))
   p <- ggplot2::ggplot(daynight_temperature, ggplot2::aes(datetime, temperature, color = sensor)) +
     geom_daynight(
       day_fill = "yellow", night_fill = "blue",
@@ -44,7 +44,7 @@ test_that("Custom day and night fill colors, custom sunrise and sunset times, an
 
 # Test for custom day and night fill colors, custom sunrise and sunset times, and adjusted alpha
 test_that("Custom day and night fill colors, custom sunrise and sunset times, and adjusted alpha", {
-  skip_if(getRversion() < 4.3)
+  skip_if(getRversion() < numeric_version("4.4"))
   p <- ggplot2::ggplot(daynight_temperature, ggplot2::aes(datetime, temperature, color = sensor)) +
     geom_daynight(
       day_fill = "yellow", night_fill = "blue",
@@ -57,7 +57,7 @@ test_that("Custom day and night fill colors, custom sunrise and sunset times, an
 
 # Test only daytime plot
 test_that("Test only daytime plot", {
-  skip_if(getRversion() < 4.3)
+  skip_if(getRversion() < numeric_version("4.4"))
   data <- daynight_temperature[
     daynight_temperature$datetime > as.POSIXct("2024-04-23 11:00") &
       daynight_temperature$datetime < as.POSIXct("2024-04-23 12:00"),
@@ -74,7 +74,7 @@ test_that("Test only daytime plot", {
 
 # Test only nighttime plot
 test_that("Test only nighttime plot", {
-  skip_if(getRversion() < 4.3)
+  skip_if(getRversion() < numeric_version("4.4"))
   data <- daynight_temperature[
     daynight_temperature$datetime > as.POSIXct("2024-04-23 19:00") &
       daynight_temperature$datetime < as.POSIXct("2024-04-23 20:00"),
