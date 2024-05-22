@@ -9,6 +9,12 @@
 
 ## Installation
 
+You can install the released version of `ggdaynight` from CRAN:
+
+```
+install.packages("ggdaynight")
+```
+
 You can install the development version of `ggdaynight` from GitHub with:
 
 ```
