@@ -135,36 +135,59 @@ draw_panel_daynight <- function(data, panel_params, coord, day_fill,
   common$colour <- NA
   rownames(common) <- NULL
 
-  # Return a nullGrob if there is not enough data
-  if (nrow(daynight) < 2) {
-    return(grid::nullGrob())
-  }
-
   # Create the data for the daytime rectangles
   day_subset <- daynight[daynight$daytime == TRUE, ]$datetime
-  data_day <- merge(
-    data.frame(
-      xmin = day_subset,
-      xmax = day_subset + 3600, # One rectangle per hour
-      ymin = -Inf,
-      ymax = Inf,
-      fill = day_fill
-    ),
-    common
-  )
+  data_day <- tryCatch({
+    merge(
+      data.frame(
+        xmin = day_subset,
+        xmax = day_subset + 3600, # One rectangle per hour
+        ymin = -Inf,
+        ymax = Inf,
+        fill = day_fill
+      ),
+      common
+    )
+  }, error = function(e) {
+    merge(
+      data.frame(
+        xmin = NA,
+        xmax = NA, # One rectangle per hour
+        ymin = -Inf,
+        ymax = Inf,
+        fill = day_fill
+      ),
+      common
+    )
+
+  })
 
   # Create the data for the nighttime rectangles
   night_subset <- daynight[daynight$daytime == FALSE, ]$datetime
-  data_night <- merge(
-    data.frame(
-      xmin = night_subset,
-      xmax = night_subset + 3600, # One rectangle per hour
-      ymin = -Inf,
-      ymax = Inf,
-      fill = night_fill
-    ),
-    common
-  )
+  data_night <- tryCatch({
+    merge(
+      data.frame(
+        xmin = night_subset,
+        xmax = night_subset + 3600, # One rectangle per hour
+        ymin = -Inf,
+        ymax = Inf,
+        fill = night_fill
+      ),
+      common
+    )
+  }, error = function(e) {
+    merge(
+      data.frame(
+        xmin = NA,
+        xmax = NA, # One rectangle per hour
+        ymin = -Inf,
+        ymax = Inf,
+        fill = night_fill
+      ),
+      common
+    )
+  })
+
 
   # Draw the daytime and nighttime rectangles on the panel
   grid::gList(
