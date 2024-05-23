@@ -1,6 +1,7 @@
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/GabrielSlPires/ggdaynight/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/GabrielSlPires/ggdaynight/actions/workflows/R-CMD-check.yaml)
 [![CRAN status](https://www.r-pkg.org/badges/version/ggdaynight)](https://CRAN.R-project.org/package=ggdaynight)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/ggdaynight)](https://cran.r-project.org/package=ggdaynight)
 <!-- badges: end -->
 
 # ggdaynight <img src="man/figures/logo.png" align="right" height="139" alt="" />
